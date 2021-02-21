@@ -383,6 +383,11 @@ for( int inum = 0 ; inum < ( 1 << n ) ; ++ inum ) {
 
 map<string, int> ingr;
 vector<vector<int>> pizzas;
+
+bool comp(vi& x, vi&y){
+    return SZ(x)<SZ(y);
+}
+vector<vector<int>> ans;
 int main(int argc, char *argv[]){
     fastIO;
     int erer=5;
@@ -398,15 +403,17 @@ int main(int argc, char *argv[]){
         ifstream fin(inputFile);
         ingr.clear();
         pizzas.clear();
+        ans.clear();
         int m;
         int t[5];
         fin>>m;
         fin>>t[2]>>t[3]>>t[4];
         pizzas.resize(m+1);
-        int l;
         string s;
         loop(i,0,m){
+            int l;
             fin>>l;
+            pizzas[i].pb(i);
             loop(j,1,l+1){
                 fin>>s;
                 if(ingr.count(s) == 0)
@@ -414,30 +421,45 @@ int main(int argc, char *argv[]){
                 pizzas[i].pb(ingr[s]);
             }
         }
-        // loop(i,2,5) cout<<t[i]<<" ";cl;
-
-        ifstream ffin(outputFile);
-        int d,x,n;
-        lli score=0;
-        ffin>>d;
-        set<int> se;
-        loop(i,0,d){
-            ffin>>n;
-            if(n<=4) t[n]--;
-            else assert(0);
-            se.clear();
-            loop(j,0,n){
-                ffin>>x;
-                for(int y: pizzas[x]){
-                    se.insert(y);
+        sort(pizzas.begin(), pizzas.end(), comp);
+        int r = m;
+        int l=1;
+        int f=1;
+        loopr(i,5,2){
+            loop(j,0,t[i]){
+                int c = i;
+                // o4(i,j,l,r);
+                vector<int> temp;
+                if(l>r) {
+                    f=-1;break;
                 }
+                temp.pb(pizzas[r][0]);
+                r--;
+                c--;
+                while(c && l<=r){
+                    c--;
+                    temp.pb(pizzas[l][0]);
+                    l++;
+                }
+                if(c) {
+                    f=-1;break;
+                }
+                ans.pb(temp);
+                
             }
-            lli sz = SZ(se);
-            score += (sz*sz);
+            if(f==-1) break;
         }
-        // loop(i,2,5) cout<<t[i]<<" ";cl;
-        assert(t[4]>=0 && t[2]>=0 && t[3]>=0);
-        cout<<"SCORE: "<<score<<endl;
+        ofstream fout(outputFile);
+        fout<<SZ(ans)<<'\n';
+        for(auto u: ans){
+            fout<<SZ(u)<<" ";
+            for(auto x: u){
+                fout<<x<<" ";
+            }fout<<'\n';
+        }
+        fout.close();
+
+        
     }         
     return 0;
 }
