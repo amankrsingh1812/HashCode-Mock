@@ -6,18 +6,13 @@
 
 using namespace std;
 
-void splitString(string &s, vector<string> &words, ll &n){
+void splitString(string &s, vector<string> &words){
 	string temp;
 	for(int i=0;i<s.length();i++){
 		if(s[i]!=' ')temp+=s[i];
 		else {
-			if(n==-1){
-				n=stoll(temp);
-				temp="";
-			} else {
-				words.PB(temp);
-				temp="";
-			}
+			words.PB(temp);
+			temp="";
 		}
 	}
 	if(temp.length()){
@@ -30,20 +25,25 @@ int main(){
 	fstream fin, fout;
 	fin.open("a_example", ios::in);
 
-	ll m;
+	ll m, t2, t3, t4;
 	string temporary;
+	vector<string> words;
 	getline(fin,temporary,'\n');
-	m=stoll(temporary);
+	splitString(temporary,words);
+	m=stoll(words[0]);
+	t2=stoll(words[1]);
+	t3=stoll(words[2]);
+	t4=stoll(words[3]);
 
 	vector<string> arr[m];
 
 	REP(i,0,m){
-		ll len=-1;
 		string s;
 		getline(fin,s,'\n');
-		splitString(s,arr[i],len);
+		splitString(s,arr[i]);
 	}
 
+	// cout<<m<<" "<<t2<<" "<<t3<<" "<<t4<<endl;
 	// REP(i,0,m){
 	// 	REP(j,0,arr[i].size()){
 	// 		cout<<arr[i][j]<<" ";
