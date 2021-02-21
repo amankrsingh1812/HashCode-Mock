@@ -383,34 +383,41 @@ for( int inum = 0 ; inum < ( 1 << n ) ; ++ inum ) {
 
 map<string, int> ingr;
 vector<vector<int>> pizzas;
-int main(){
+int main(int argc, char *argv[]){
     fastIO;
-    int erer=1;
-    // cin>>erer;
-    loop(erer2,1,erer+1){
+    int erer=5;
+    loop(erer2,0,erer){
+        char in = erer2+'a';
+        string inputFile = "inputs/" + in;
+        inputFile += ".in";
+        string outputFile = "outputs/" + in;
+        outputFile += ".out";
+        ifstream fin(inputFile);
+        ingr.clear();
+        pizzas.clear();
         int m, t2,t3,t4;
-        cin>>m;
-        loop(i,0,m) cin>>t2>>t3>>t4;
+        fin>>m;
+        loop(i,0,m) fin>>t2>>t3>>t4;
         pizzas.resize(m);
         int l;
         string s;
         loop(i,1,m+1){
-            cin>>l;
+            fin>>l;
             loop(j,1,l+1){
-                cin>>s;
+                fin>>s;
                 if(ingr.count(s) == 0)
                     ingr[s]=SZ(ingr);
                 pizzas[i].pb(ingr[s]);
             }
         }
 
-
+        ifstream ffin(outputFile);
         int d,x,n;
         lli score=0;
-        cin>>d;
+        ffin>>d;
         set<int> se;
         loop(i,0,d){
-            cin>>n;
+            ffin>>n;
             if(n==2) t2--;
             else if(n==3) t3--;
             else if(n==4) t4--;
@@ -418,7 +425,7 @@ int main(){
             assert(t4>=0 && t2>=0 && t3>=0);
             se.clear();
             loop(j,0,n){
-                cin>>x;
+                ffin>>x;
                 for(int y: pizzas[x]){
                     se.insert(y);
                 }
