@@ -382,7 +382,7 @@ for( int inum = 0 ; inum < ( 1 << n ) ; ++ inum ) {
 */
 
 map<string, int> ingr;
-vector<int> pizzas;
+vector<vector<int>> pizzas;
 int main(){
     fastIO;
     int erer=1;
@@ -394,25 +394,39 @@ int main(){
         pizzas.resize(m);
         int l;
         string s;
-        loop(i,0,m){
+        loop(i,1,m+1){
             cin>>l;
-            loop(j,0,l){
+            loop(j,1,l+1){
                 cin>>s;
-                ingr.insert(s);
-                pizzas[i].pb(SZ(ingr));
+                if(ingr.count(s) == 0)
+                    ingr[s]=SZ(ingr);
+                pizzas[i].pb(ingr[s]);
             }
         }
 
 
-        int d;
+        int d,x,n;
+        lli score=0;
         cin>>d;
+        set<int> se;
         loop(i,0,d){
-            int n;
             cin>>n;
+            if(n==2) t2--;
+            else if(n==3) t3--;
+            else if(n==4) t4--;
+            else assert(0);
+            assert(t4>=0 && t2>=0 && t3>=0);
+            se.clear();
             loop(j,0,n){
-
+                cin>>x;
+                for(int y: pizzas[x]){
+                    se.insert(y);
+                }
             }
+            lli sz = SZ(se);
+            score += (sz*sz);
         }
+        cout<<score<<endl;
     }         
     return 0;
 }
