@@ -20,10 +20,15 @@ void splitString(string &s, vector<string> &words){
 	}
 }
 
-int main(){
+int main(int argc, char *argv[]){
+
+	if(argc!=2){
+		cout<<"Please mention input file\n";
+		return 0;
+	}
 
 	fstream fin, fout;
-	fin.open("a_example", ios::in);
+	fin.open(argv[1], ios::in);
 
 	ll m, t2, t3, t4;
 	string temporary;
