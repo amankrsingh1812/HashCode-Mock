@@ -414,8 +414,6 @@ int main(int argc, char *argv[]){
                 pizzas[i].pb(ingr[s]);
             }
         }
-        // loop(i,2,5) cout<<t[i]<<" ";cl;
-
         ifstream ffin(outputFile);
         int d,x,n;
         lli score=0;

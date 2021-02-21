@@ -425,7 +425,9 @@ int main(int argc, char *argv[]){
         int r = m;
         int l=1;
         int f=1;
-        loopr(i,5,2){
+        int arr[] = {2,3,4};
+        loop(k,0,3){
+            int i = arr[k];
             loop(j,0,t[i]){
                 int c = i;
                 // o4(i,j,l,r);
@@ -433,13 +435,13 @@ int main(int argc, char *argv[]){
                 if(l>r) {
                     f=-1;break;
                 }
-                temp.pb(pizzas[r][0]);
-                r--;
+                temp.pb(pizzas[l][0]);
+                l++;
                 c--;
                 while(c && l<=r){
                     c--;
-                    temp.pb(pizzas[l][0]);
-                    l++;
+                    temp.pb(pizzas[r][0]);
+                    r--;
                 }
                 if(c) {
                     f=-1;break;
