@@ -95,14 +95,86 @@ void scorer(string outFileName){
     }
 } 
 
+const int N=1e+5+10;
+string intersectionName[N];
+map<string,int> nameToId;
+int D,I,S,V,F,L[N],B[N],E[N],cntStreet[N];
+vector<int>adjInp[N],adjOut[N];
+
+
+void initialise(int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		adjInp[i].clear();
+		adjOut[i].clear();
+		cntStreet[i]=B[i]=E[i]=L[i]=0;
+	}
+	nameToId.clear();
+}
+
+bool comp(int s1,int s2)
+{
+	return cntStreet[s1]>cntStreet[s2];
+}
+
 int main(int argc, char *argv[]){
     fastIO;
-    for(char file='a';file<'f';file++){
+    for(char file='a';file<='f';file++){
         string inFileName = file+".in";
         string outFileName = file+".out";
+
+		ifstream fin(inFileName);
+		initialise(N);
+		fin>>D>>I>>S>>V>>F;
+
+		for(int i=1;i<=S;i++)
+		{
+			fin>>B[i]>>E[i]>>intersectionName[i]>>L[i];
+			nameToId[intersectionName[i]]=i;;
+			adjInp[E[i]].push_back(i);
+			adjOut[B[i]].push_back(i);
+		}
+
+		for(int i=1;i<=V;i++)
+		{
+			fin>>P;
+			while(P--)
+			{
+				string s;
+				fin>>s;
+				int sId=nameToId[s];
+				if(P>0)
+					cntStreet[sId]++;
+			}
+		}
         
+		int A=0;
+		for(int i=0;i<=I;i++)
+		{
+			if(adjInp[i]>0)
+				A++;
+		}
+		//fout<<A<<"\n";
 
+		for(int i=0;i<=I;i++)
+		{
+			if(adjInp[i].size()==0)
+				continue;
+			//fout<<i<<"\n";
+			//fout<adjInp[i].size()<<"\n";
+			sort(adjInp[i].begin(),adjInp[i].end(),comp);
+			int g=comp[adjInp[i][0]];
+			for(auto i1:adjInp[i])
+				g=__gcd(i1,g);
+			
+			for(auto i1:adjInp[i])
+			{
+				//fout<<intersectionName[i1]<<" "<<comp[i1]/g<<"\n";
+			}
+		}
 
+		fin.close();
     }
     return 0;
 }
