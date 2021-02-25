@@ -80,9 +80,29 @@ inline lli modnCr(lli fac[], int n, int r, lli p=mod)
     if (r==0) return 1;
     return modpro(fac[n],modInverse(modpro(fac[r],fac[n-r],p),p),p);
 }
- 
+map<string, lli> maxScore;
+void scorer(string outFileName){
+    
+    lli curScore = 0;
+
+
+
+    if(maxScore[outFileName] < curScore){
+        ofstream fout(outFileName);
+        // WRITE TO FILE
+
+        maxScore[outFileName] = curScore;
+    }
+} 
+
 int main(int argc, char *argv[]){
     fastIO;
-      
+    for(char file='a';file<'f';file++){
+        string inFileName = file+".in";
+        string outFileName = file+".out";
+        
+
+
+    }
     return 0;
 }
