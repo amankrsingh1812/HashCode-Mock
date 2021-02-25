@@ -95,11 +95,11 @@ void scorer(string outFileName){
     }
 } 
 
-const int N=1e+5+10;
-string intersectionName[N];
+const int N1=1e+5+10;
+string intersectionName[N1];
 map<string,int> nameToId;
-int D,I,S,V,F,L[N],B[N],E[N],cntStreet[N];
-vector<int>adjInp[N],adjOut[N];
+int D,I,S,V,F,L[N1],B[N1],E[N1],cntStreet[N1];
+vector<int>adjInp[N1],adjOut[N1];
 
 
 void initialise(int n)
@@ -119,13 +119,19 @@ bool comp(int s1,int s2)
 }
 
 int main(int argc, char *argv[]){
-    fastIO;
-    for(char file='a';file<='a';file++){
-        string inFileName = file+".in";
-        string outFileName = file+".out";
+    //fastIO;
+    for(char file='a';file<='f';file++){
+        string inFileName;
+		//cout<<file;
+		inFileName.push_back(file);
+		inFileName+=".txt";
+        string outFileName;
+		outFileName.push_back(file);
+		outFileName+= "out.txt";
+		//cout<<outFileName;
 
 		ifstream fin(inFileName);
-		initialise(N);
+		initialise(N1);
 		fin>>D>>I>>S>>V>>F;
 
 		for(int i=1;i<=S;i++)
@@ -138,6 +144,7 @@ int main(int argc, char *argv[]){
 
 		for(int i=1;i<=V;i++)
 		{
+			int P;
 			fin>>P;
 			while(P--)
 			{
@@ -152,7 +159,15 @@ int main(int argc, char *argv[]){
 		int A=0;
 		for(int i=0;i<=I;i++)
 		{
-			if(adjInp[i].size()>0)
+			int sz=0;
+			for(auto i1:adjInp[i])
+			{
+				if(cntStreet[i1]>0)
+				{
+					sz++;
+				}
+			}
+			if(sz>0)
 				A++;
 		}
 
@@ -163,19 +178,30 @@ int main(int argc, char *argv[]){
 		{
 			if(adjInp[i].size()==0)
 				continue;
-			fout<<i<<"\n";
-			fout<<adjInp[i].size()<<"\n";
+			int sz=0;
+			//cout<<adjInp[i].size()<<"\n";
 			sort(adjInp[i].begin(),adjInp[i].end(),comp);
 			int g=cntStreet[adjInp[i][0]];
 			for(auto i1:adjInp[i])
-				g=__gcd(cntStreet[i1],g);
-			
+			{
+				if(cntStreet[i1]>0)
+				{
+					g=__gcd(cntStreet[i1],g);
+					sz++;
+				}
+			}
+			if(sz==0)
+				continue;
+			fout<<i<<"\n";
+			fout<<sz<<"\n";
 			for(auto i1:adjInp[i])
 			{
-				fout<<intersectionName[i1]<<" "<<cntStreet[i1]/g<<"\n";
+				if(cntStreet[i1]>0)
+					fout<<intersectionName[i1]<<" "<<cntStreet[i1]/g<<"\n";
 			}
 		}
 
+		fout.close();
 		fin.close();
     }
     return 0;
